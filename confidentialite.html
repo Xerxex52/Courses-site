@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b1410">
+  <meta name="description" content="Politique de confidentialité de l'app Courses : aucune collecte, aucune publicité, aucun suivi.">
+  <title>Confidentialité — Courses</title>
+  <link rel="icon" type="image/png" href="assets/app-icon.png">
+  <style>
+    :root {
+      --ink: #f7fbf8;
+      --muted: #a9b8b0;
+      --muted-strong: #cbd7d0;
+      --bg: #071009;
+      --panel: #102016;
+      --line: rgba(255,255,255,.10);
+      --green-strong: #26cf78;
+      --max: 1160px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--bg);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--green-strong); }
+    .shell { width: min(calc(100% - 48px), var(--max)); margin-inline: auto; }
+    .site-header {
+      position: sticky; top: 0; z-index: 30;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+      background: rgba(7,16,9,.82);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+    .nav { min-height: 72px; display: flex; align-items: center; justify-content: space-between; }
+    .brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; font-weight: 760; color: var(--ink); }
+    .brand img { width: 42px; height: 42px; border-radius: 11px; }
+    .nav a.retour { color: var(--muted-strong); text-decoration: none; font-size: .95rem; }
+    .legal { max-width: 46rem; padding: 72px 0 96px; }
+    .legal h1 { margin: 0 0 8px; font-size: clamp(2rem, 4vw, 3rem); letter-spacing: -.03em; }
+    .maj { color: var(--muted); margin: 0 0 40px; font-size: .95rem; }
+    .legal h2 { margin: 44px 0 12px; font-size: 1.35rem; letter-spacing: -.01em; }
+    .legal p, .legal li { color: var(--muted); }
+    .legal ul { padding-left: 22px; }
+    footer { border-top: 1px solid rgba(255,255,255,.07); padding: 40px 0 56px; color: var(--muted); font-size: .92rem; }
+    footer a { color: var(--muted-strong); text-decoration: none; }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="shell nav">
+      <a class="brand" href="./">
+        <img src="assets/app-icon.png" alt="Icône Courses">
+        <span>Courses</span>
+      </a>
+      <a class="retour" href="./">← Retour au site</a>
+    </div>
+  </header>
+
+  <main class="shell legal">
+    <h1>Politique de confidentialité</h1>
+    <p class="maj">Dernière mise à jour : juillet 2026</p>
+
+    <h2>Données collectées par le développeur</h2>
+    <p><strong>Aucune.</strong> Courses ne collecte, ne transmet et ne vend aucune donnée personnelle. Pas d'analytics, pas de publicité, pas de suivi.</p>
+
+    <h2>Vos données</h2>
+    <ul>
+      <li>Vos listes, votre stock, votre historique et vos réglages sont stockés sur votre appareil.</li>
+      <li>Si vous activez la synchro, elles transitent par votre compte iCloud personnel (CloudKit privé d'Apple) — elles ne sont lisibles que par vos appareils. Sans iCloud, tout reste en local.</li>
+      <li>Les notifications sont locales, rien ne quitte l'appareil.</li>
+    </ul>
+
+    <h2>Caméra et photos</h2>
+    <p>La caméra et la photothèque servent exclusivement à reconnaître le texte de vos listes et tickets (OCR effectué sur l'appareil).</p>
+
+    <h2>Services tiers</h2>
+    <ul>
+      <li><strong>Open Food Facts</strong> : lors d'un scan de code-barres, seul le code-barres est envoyé à l'API publique (openfoodfacts.org) pour retrouver le nom du produit. Aucune autre information n'est transmise.</li>
+      <li><strong>Open Prices</strong> : ce même code-barres est envoyé à l'API publique Open Prices (prices.openfoodfacts.org) pour afficher les prix relevés par la communauté. Aucune autre information n'est transmise.</li>
+      <li><strong>Apple</strong> (iCloud, App Store, StoreKit) : voir les politiques d'Apple.</li>
+    </ul>
+
+    <h2>Apple Intelligence</h2>
+    <p>Sur les appareils compatibles, le modèle d'Apple Intelligence peut nettoyer les noms de produits, entièrement sur l'appareil.</p>
+
+    <h2>Achats intégrés</h2>
+    <p>L'abonnement Premium est géré par l'App Store (Apple). Nous n'avons accès à aucune donnée de paiement.</p>
+
+    <h2>Contact</h2>
+    <p>Via la page GitHub du projet : <a href="https://github.com/Xerxex52/Courses" rel="noopener">github.com/Xerxex52/Courses</a>.</p>
+  </main>
+
+  <footer>
+    <div class="shell">© 2026 Xerxex52 — Courses · <a href="./">Retour au site</a></div>
+  </footer>
+
+</body>
+</html>

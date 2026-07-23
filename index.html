@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b1410">
+  <meta name="description" content="Courses : listes de courses intelligentes, scan de tickets, prix par enseigne et frigo anti-gaspillage sur iPhone et iPad.">
+  <title>Courses — Listes, stock & anti-gaspillage</title>
+  <link rel="icon" type="image/png" href="assets/app-icon.png">
+  <style>
+    :root {
+      --ink: #f7fbf8;
+      --muted: #a9b8b0;
+      --muted-strong: #cbd7d0;
+      --bg: #071009;
+      --bg-2: #0b1710;
+      --panel: #102016;
+      --panel-2: #152a1d;
+      --line: rgba(255,255,255,.10);
+      --green: #62e79e;
+      --green-strong: #26cf78;
+      --green-soft: rgba(98,231,158,.12);
+      --shadow: 0 28px 80px rgba(0,0,0,.38);
+      --radius: 28px;
+      --max: 1160px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--bg);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 16px;
+      line-height: 1.55;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { display: block; max-width: 100%; height: auto; }
+    a { color: inherit; }
+    .shell { width: min(calc(100% - 48px), var(--max)); margin-inline: auto; }
+    .section { padding: 104px 0; }
+    .section-alt { background: var(--bg-2); }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+      background: rgba(7,16,9,.82);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+    .nav {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; font-weight: 760; letter-spacing: -.02em; }
+    .brand img { width: 42px; height: 42px; border-radius: 11px; box-shadow: 0 8px 24px rgba(38,207,120,.18); }
+    .brand span { font-size: 1.16rem; }
+    .nav-links { display: flex; gap: 22px; align-items: center; }
+    .nav-links a { color: var(--muted-strong); text-decoration: none; font-size: .95rem; }
+    .nav-links a:hover { color: var(--ink); }
+
+    .hero {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      padding: 88px 0 96px;
+      background: linear-gradient(135deg, #0c2415 0%, #071009 55%, #0a1d11 100%);
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      inset: auto -15% -55% 30%;
+      height: 540px;
+      background: radial-gradient(circle, rgba(38,207,120,.24), transparent 66%);
+      pointer-events: none;
+    }
+    .hero-grid { display: grid; grid-template-columns: minmax(0,1.08fr) minmax(280px,.68fr); align-items: center; gap: clamp(48px,8vw,110px); }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 24px;
+      padding: 8px 13px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,.04);
+      color: var(--muted-strong);
+      font-size: .86rem;
+      font-weight: 600;
+    }
+    .eyebrow::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--green-strong); }
+    h1 {
+      margin: 0 0 20px;
+      font-size: clamp(2.6rem, 5.6vw, 4.4rem);
+      line-height: 1.04;
+      letter-spacing: -.045em;
+      font-weight: 800;
+    }
+    .lead { margin: 0 0 34px; max-width: 34rem; color: var(--muted); font-size: 1.16rem; line-height: 1.65; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 52px;
+      padding: 0 22px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      text-decoration: none;
+      font-weight: 700;
+    }
+    .btn-primary { color: #05130b; background: linear-gradient(135deg, var(--green), var(--green-strong)); box-shadow: 0 14px 44px rgba(38,207,120,.28); }
+    .btn-ghost { color: var(--ink); border-color: var(--line); background: rgba(255,255,255,.04); }
+    .hero-points { display: flex; flex-wrap: wrap; gap: 10px 22px; margin-top: 30px; padding: 0; list-style: none; color: var(--muted-strong); font-size: .95rem; }
+    .hero-points li::before { content: "✓"; margin-right: 8px; color: var(--green-strong); font-weight: 800; }
+    .phone {
+      margin-inline: auto;
+      width: min(320px, 78vw);
+      border-radius: 44px;
+      border: 1px solid rgba(255,255,255,.14);
+      box-shadow: var(--shadow), 0 0 0 10px rgba(255,255,255,.04);
+    }
+
+    .kicker { margin: 0 0 14px; color: var(--green-strong); font-size: .92rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+    h2 { margin: 0 0 18px; font-size: clamp(1.9rem, 3.4vw, 2.8rem); line-height: 1.12; letter-spacing: -.03em; font-weight: 780; }
+    .sub { margin: 0; max-width: 40rem; color: var(--muted); font-size: 1.06rem; }
+
+    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 22px; margin-top: 52px; }
+    .card {
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, var(--panel), var(--panel-2));
+    }
+    .card .icone {
+      display: grid;
+      place-items: center;
+      width: 52px; height: 52px;
+      margin-bottom: 20px;
+      border-radius: 15px;
+      background: var(--green-soft);
+      font-size: 1.5rem;
+    }
+    .card h3 { margin: 0 0 10px; font-size: 1.18rem; letter-spacing: -.01em; }
+    .card p { margin: 0; color: var(--muted); font-size: .97rem; }
+
+    .split { display: grid; grid-template-columns: minmax(0,1fr) minmax(280px,.8fr); align-items: center; gap: clamp(48px,7vw,96px); }
+    .split.inverse > .texte { order: 2; }
+    .split.inverse > .visuel { order: 1; }
+    .check-list { margin: 26px 0 0; padding: 0; list-style: none; color: var(--muted-strong); }
+    .check-list li { padding: 7px 0; }
+    .check-list li::before { content: "✓"; margin-right: 10px; color: var(--green-strong); font-weight: 800; }
+
+    .prix-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 22px; margin-top: 52px; }
+    .prix-card { padding: 32px; border: 1px solid var(--line); border-radius: var(--radius); background: linear-gradient(180deg, var(--panel), var(--panel-2)); }
+    .prix-card.premium { border-color: rgba(98,231,158,.45); box-shadow: 0 18px 60px rgba(38,207,120,.14); }
+    .badge { display: inline-block; margin-bottom: 14px; padding: 5px 12px; border-radius: 999px; background: var(--green-soft); color: var(--green); font-size: .8rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+    .montant { margin: 0 0 6px; font-size: 2.2rem; font-weight: 800; letter-spacing: -.03em; }
+    .montant small { font-size: 1rem; color: var(--muted); font-weight: 600; }
+
+    footer { border-top: 1px solid rgba(255,255,255,.07); padding: 48px 0 64px; color: var(--muted); font-size: .92rem; }
+    .footer-grid { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px; align-items: center; }
+    .footer-links { display: flex; gap: 22px; }
+    .footer-links a { color: var(--muted-strong); text-decoration: none; }
+    .footer-links a:hover { color: var(--ink); }
+
+    .legal { max-width: 46rem; }
+    .legal h1 { font-size: clamp(2rem, 4vw, 3rem); }
+    .legal h2 { margin-top: 44px; font-size: 1.4rem; }
+    .legal p, .legal li { color: var(--muted); }
+    .legal ul { padding-left: 22px; }
+
+    @media (max-width: 900px) {
+      .section { padding: 72px 0; }
+      .hero-grid, .split, .prix-grid { grid-template-columns: 1fr; }
+      .split.inverse > .texte { order: 1; }
+      .split.inverse > .visuel { order: 2; }
+      .grid-3 { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="shell nav">
+      <a class="brand" href="./">
+        <img src="assets/app-icon.png" alt="Icône Courses">
+        <span>Courses</span>
+      </a>
+      <nav class="nav-links">
+        <a href="#fonctions">Fonctions</a>
+        <a href="#premium">Premium</a>
+        <a href="confidentialite.html">Confidentialité</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="shell hero-grid">
+      <div>
+        <span class="eyebrow">iPhone & iPad · Français · iCloud</span>
+        <h1>Votre frigo se gère (presque) tout seul.</h1>
+        <p class="lead">Scannez vos tickets de caisse : votre stock se remplit automatiquement, les dates de péremption sont estimées, et au moindre code-barres scanné vous voyez dans quelle enseigne le produit est le moins cher.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="https://apps.apple.com/app/courses" rel="noopener">Télécharger sur l'App Store</a>
+          <a class="btn btn-ghost" href="#fonctions">Découvrir</a>
+        </div>
+        <ul class="hero-points">
+          <li>Scan de tickets</li>
+          <li>Prix par enseigne</li>
+          <li>Alertes péremption</li>
+          <li>Sans pub ni suivi</li>
+        </ul>
+      </div>
+      <img class="phone" src="assets/capture-liste.png" alt="Liste de courses triée par rayons">
+    </div>
+  </section>
+
+  <section class="section" id="fonctions">
+    <div class="shell">
+      <p class="kicker">L'essentiel</p>
+      <h2>Moins de gaspillage. Moins de charge mentale.</h2>
+      <p class="sub">Tout ce qui compte entre le magasin et votre frigo, sans y passer vos soirées.</p>
+      <div class="grid-3">
+        <div class="card">
+          <div class="icone">🛒</div>
+          <h3>Une liste qui vous connaît</h3>
+          <p>Suggestions de vos produits habituels, quantités en un tap, tri par rayons pour traverser le magasin dans le bon ordre. Multi-listes : Semaine, Apéro, Pharmacie…</p>
+        </div>
+        <div class="card">
+          <div class="icone">🧾</div>
+          <h3>Scannez, ne saisissez plus</h3>
+          <p>Photographiez un ticket de caisse ou importez un PDF : produits, quantités et prix sont détectés automatiquement. L'OCR français connaît les enseignes françaises.</p>
+        </div>
+        <div class="card">
+          <div class="icone">🏷️</div>
+          <h3>Le moins cher, au scan</h3>
+          <p>Visez un code-barres : nom et catégorie arrivent via Open Food Facts, et les prix relevés par la communauté Open Prices vous disent quelle enseigne est la moins chère.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="shell split">
+      <div class="texte">
+        <p class="kicker">Scan & import</p>
+        <h2>Le ticket de caisse devient votre stock.</h2>
+        <p class="sub">Caméra en direct, photo ou PDF — même « Ouvrir avec » depuis Fichiers ou Mail. Vous cochez ce que vous gardez, le reste va au stock avec les prix.</p>
+        <ul class="check-list">
+          <li>OCR français, pensé pour les enseignes françaises</li>
+          <li>Code-barres : nom, catégorie et prix par enseigne</li>
+          <li>Import de listes manuscrites ou de PDF de factures</li>
+        </ul>
+      </div>
+      <div class="visuel">
+        <img class="phone" src="assets/capture-scanner.png" alt="Écran de scan : caméra, photo, PDF ou code-barres">
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell split inverse">
+      <div class="texte">
+        <p class="kicker">Anti-gaspillage</p>
+        <h2>Votre stock, par zones, avec péremption estimée.</h2>
+        <p class="sub">Frigo, petit déjeuner, épicerie, maison : chaque produit à sa place. Les dates de péremption sont estimées automatiquement — et l'app apprend de vos corrections.</p>
+        <ul class="check-list">
+          <li>Alertes avant péremption</li>
+          <li>Résumé anti-gaspillage du samedi matin</li>
+          <li>Produit consommé ? Un tap le remet sur la liste</li>
+        </ul>
+      </div>
+      <div class="visuel">
+        <img class="phone" src="assets/capture-stock.png" alt="Tableau de bord du stock par zones">
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="shell split inverse">
+      <div class="texte">
+        <p class="kicker">Budget</p>
+        <h2>Vos dépenses, enfin lisibles.</h2>
+        <p class="sub">Estimation du total de votre liste avant d'entrer en magasin, dépenses par mois et par catégorie, cycles d'achat pour racheter au bon moment.</p>
+        <ul class="check-list">
+          <li>Dépenses par mois et par catégorie</li>
+          <li>Estimation du panier avant les courses</li>
+          <li>Suggestions de réachat par cycles</li>
+        </ul>
+      </div>
+      <div class="visuel">
+        <img class="phone" src="assets/capture-stats.png" alt="Statistiques de dépenses par mois et par catégorie">
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <p class="kicker">Partout avec vous</p>
+      <h2>iPhone, iPad, écran d'accueil et Siri.</h2>
+      <div class="grid-3">
+        <div class="card">
+          <div class="icone">☁️</div>
+          <h3>Synchro iCloud</h3>
+          <p>iPhone et iPad toujours à jour, sans rien configurer. Vos données restent dans votre compte iCloud personnel.</p>
+        </div>
+        <div class="card">
+          <div class="icone">📱</div>
+          <h3>Widget</h3>
+          <p>Articles restants et urgences du frigo, directement sur l'écran d'accueil.</p>
+        </div>
+        <div class="card">
+          <div class="icone">🗣️</div>
+          <h3>Siri & Raccourcis</h3>
+          <p>« Ajoute du lait à ma liste » — les mains dans la pâte, ça marche quand même.</p>
+        </div>
+      </div>
+      <div style="margin-top:52px; text-align:center;">
+        <img src="assets/capture-ipad.png" alt="Courses sur iPad, liste et barre latérale" style="margin-inline:auto; border-radius:24px; border:1px solid var(--line); box-shadow: var(--shadow); max-width:820px;">
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt" id="premium">
+    <div class="shell">
+      <p class="kicker">Premium</p>
+      <h2>Gratuit pour l'essentiel. Premium pour aller plus loin.</h2>
+      <div class="prix-grid">
+        <div class="prix-card">
+          <span class="badge">Gratuit</span>
+          <p class="montant">0 €</p>
+          <ul class="check-list">
+            <li>Listes, stock et alertes péremption</li>
+            <li>Prix par enseigne au scan</li>
+            <li>5 scans de tickets par mois</li>
+            <li>Widget, Siri, synchro iCloud</li>
+          </ul>
+        </div>
+        <div class="prix-card premium">
+          <span class="badge">Premium</span>
+          <p class="montant">0,99 €<small>/mois</small> · 9,99 €<small>/an</small></p>
+          <ul class="check-list">
+            <li>Scans de tickets illimités</li>
+            <li>Statistiques complètes</li>
+            <li>Réachat intelligent par cycles</li>
+            <li>Noms de produits nettoyés par Apple Intelligence</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell" style="text-align:center;">
+      <p class="kicker">Vie privée</p>
+      <h2>Vos données restent chez vous.</h2>
+      <p class="sub" style="margin-inline:auto;">Aucune collecte, aucune publicité, aucun suivi. Tout est stocké sur vos appareils et votre compte iCloud personnel. Seul le code-barres scanné est envoyé aux bases publiques Open Food Facts et Open Prices.</p>
+      <div class="hero-actions" style="justify-content:center; margin-top:30px;">
+        <a class="btn btn-ghost" href="confidentialite.html">Lire la politique de confidentialité</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="shell footer-grid">
+      <span>© 2026 Xerxex52 — Courses</span>
+      <nav class="footer-links">
+        <a href="confidentialite.html">Confidentialité</a>
+        <a href="https://github.com/Xerxex52/Courses" rel="noopener">GitHub</a>
+        <a href="https://github.com/Xerxex52/Courses-site" rel="noopener">Code de ce site</a>
+      </nav>
+    </div>
+  </footer>
+
+</body>
+</html>
