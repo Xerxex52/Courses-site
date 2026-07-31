@@ -209,6 +209,47 @@
       box-shadow: var(--shadow);
     }
 
+    .video-grid {
+      display: grid;
+      grid-template-columns: minmax(0, .82fr) minmax(300px, .58fr);
+      align-items: center;
+      gap: clamp(46px, 8vw, 104px);
+    }
+    .video-copy .actions { margin-top: 30px; }
+    .video-stage {
+      position: relative;
+      width: min(390px, 100%);
+      margin-inline: auto;
+      padding: 12px;
+      border: 1px solid rgba(190, 247, 207, .2);
+      border-radius: 42px;
+      background: linear-gradient(150deg, rgba(190, 247, 207, .12), rgba(4, 43, 31, .72));
+      box-shadow: var(--shadow);
+    }
+    .video-stage::before {
+      content: "";
+      position: absolute;
+      inset: 12% -18%;
+      z-index: -1;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(48, 212, 103, .2), transparent 68%);
+      filter: blur(22px);
+    }
+    .demo-video {
+      display: block;
+      width: 100%;
+      aspect-ratio: 9 / 16;
+      border-radius: 31px;
+      background: #031f16;
+      object-fit: cover;
+    }
+    .video-note {
+      margin: 16px 0 0;
+      color: var(--muted);
+      text-align: center;
+      font-size: .88rem;
+    }
+
     .intro { max-width: 720px; }
     .kicker {
       margin: 0 0 13px;
@@ -350,11 +391,14 @@
 
     @media (max-width: 960px) {
       .section { padding: 78px 0; }
-      .hero-grid, .feature { grid-template-columns: 1fr; }
+      .hero-grid, .feature, .video-grid { grid-template-columns: 1fr; }
       .hero-copy { text-align: center; }
       .lead { margin-inline: auto; }
       .actions, .proof { justify-content: center; }
       .hero-shot-wrap { margin-top: 18px; }
+      .video-copy { text-align: center; }
+      .video-copy .sub { max-width: 680px; margin-inline: auto; }
+      .video-copy .actions { justify-content: center; }
       .benefits { grid-template-columns: 1fr; }
       .showcase-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .showcase-grid figure:nth-child(even) { margin-top: 36px; }
@@ -369,6 +413,8 @@
       .hero { padding: 64px 0 62px; }
       h1 { font-size: clamp(2.7rem, 14vw, 4rem); }
       .marketing-shot { width: min(360px, 94%); border-radius: 27px; }
+      .video-stage { width: min(360px, 94%); padding: 8px; border-radius: 34px; }
+      .demo-video { border-radius: 27px; }
       .showcase-grid {
         display: flex;
         gap: 16px;
@@ -427,6 +473,28 @@
         </div>
         <div class="hero-shot-wrap">
           <img class="marketing-shot" src="assets/capture-liste.png?v=20260731" alt="Courses sur iPhone : liste organisée par rayons avec progression compacte">
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="demo-title">
+      <div class="shell video-grid">
+        <div class="video-copy">
+          <p class="kicker">Courses en action</p>
+          <h2 id="demo-title">Voyez tout le parcours en 51 secondes.</h2>
+          <p class="sub">Créez une liste, scannez un produit, importez un PDF et retrouvez automatiquement vos achats dans le stock et les statistiques.</p>
+          <div class="actions">
+            <a class="btn btn-primary" href="https://apps.apple.com/app/courses" rel="noopener">Essayer Courses</a>
+          </div>
+        </div>
+        <div>
+          <div class="video-stage">
+            <video class="demo-video" controls playsinline preload="metadata" poster="assets/capture-liste.png?v=20260731" aria-label="Démonstration vidéo de l’application Courses sur iPhone">
+              <source src="assets/courses-demo.mp4?v=20260731" type="video/mp4">
+              Votre navigateur ne prend pas en charge la vidéo HTML5.
+            </video>
+          </div>
+          <p class="video-note">Activez le son pour écouter la musique originale.</p>
         </div>
       </div>
     </section>
